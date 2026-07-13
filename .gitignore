@@ -24,3 +24,6 @@ Thumbs.db
 
 # raw/unprocessed screenshots — only the curated vetsaas-*.png are published
 public/screenshots/Screenshot *.png
+
+.vercel
+.env*
