@@ -1,0 +1,96 @@
+---
+interface Shot {
+  src: string;
+  alt: string;
+  caption: string;
+}
+interface Props {
+  shots: Shot[];
+}
+const { shots } = Astro.props;
+---
+
+<div
+  class="gallery grid grid-cols-2 gap-3 sm:grid-cols-4"
+  data-gallery
+>
+  {
+    shots.map((s, i) => (
+      <button
+        type="button"
+        class="group/thumb block overflow-hidden rounded-lg border border-line bg-ink-850 text-left transition-colors hover:border-spark-500/50"
+        data-shot={s.src}
+        data-caption={s.caption}
+        aria-label={`Ampliar: ${s.caption}`}
+      >
+        <span
+          class="flex items-center gap-1.5 border-b border-line bg-ink-900 px-2.5 py-1.5"
+          aria-hidden="true"
+        >
+          <span class="h-1.5 w-1.5 rounded-full bg-ink-600" />
+          <span class="h-1.5 w-1.5 rounded-full bg-ink-600" />
+          <span class="h-1.5 w-1.5 rounded-full bg-ink-600" />
+        </span>
+        <img
+          src={s.src}
+          alt={s.alt}
+          loading={i === 0 ? "eager" : "lazy"}
+          decoding="async"
+          class="aspect-[16/10] w-full object-cover object-top transition-transform duration-300 group-hover/thumb:scale-[1.03]"
+        />
+        <span class="block px-3 py-2 text-xs text-mist-400">{s.caption}</span>
+      </button>
+    ))
+  }
+</div>
+
+<dialog
+  data-lightbox
+  class="m-auto w-[min(92vw,1100px)] rounded-xl border border-line bg-ink-900 p-0 backdrop:bg-ink-950/80 backdrop:backdrop-blur-sm"
+>
+  <div class="flex items-center justify-between border-b border-line px-4 py-2.5">
+    <span data-lightbox-caption class="text-sm text-mist-300"></span>
+    <button
+      type="button"
+      data-lightbox-close
+      class="rounded-md px-2 py-1 text-mist-400 transition-colors hover:bg-ink-800 hover:text-mist-100"
+      aria-label="Cerrar"
+    >
+      ✕
+    </button>
+  </div>
+  <img
+    data-lightbox-img
+    src=""
+    alt=""
+    class="max-h-[80vh] w-full bg-ink-950 object-contain"
+  />
+</dialog>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>("[data-gallery]");
+  const dialog = document.querySelector<HTMLDialogElement>("[data-lightbox]");
+  if (gallery && dialog) {
+    const img = dialog.querySelector<HTMLImageElement>("[data-lightbox-img]");
+    const cap = dialog.querySelector<HTMLElement>("[data-lightbox-caption]");
+    const closeBtn = dialog.querySelector<HTMLElement>("[data-lightbox-close]");
+
+    gallery.querySelectorAll<HTMLElement>("[data-shot]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (img) {
+          img.src = btn.dataset.shot ?? "";
+          img.alt = btn.dataset.caption ?? "";
+        }
+        if (cap) cap.textContent = btn.dataset.caption ?? "";
+        dialog.showModal();
+      });
+    });
+
+    const close = () => dialog.close();
+    closeBtn?.addEventListener("click", close);
+    // Click on the backdrop (outside the content) closes.
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+  }
+</script>

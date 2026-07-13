@@ -1,0 +1,45 @@
+---
+import Section from "./Section.astro";
+
+const facts = [
+  { k: "Modalidad", v: "Full-time, part-time o freelance — remoto, o híbrido en Buenos Aires" },
+  { k: "Disponibilidad", v: "Inmediata" },
+  { k: "Idioma", v: "Español nativo · inglés en progreso activo" },
+];
+---
+
+<Section id="busco" label="Qué busco" title="Mi próximo lugar">
+  <div class="reveal grid gap-8 md:max-w-3xl">
+    <p class="text-base leading-relaxed text-mist-300">
+      Mi primer puesto formal en desarrollo de software, con foco
+      <span class="font-semibold text-mist-100">backend</span> o full-stack con
+      orientación backend. Me interesan especialmente los sistemas que tocan el
+      mundo real: operaciones, logística, industria, gestión — el terreno donde
+      ya trabajé del otro lado del mostrador.
+    </p>
+
+    <dl class="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3">
+      {
+        facts.map((f) => (
+          <div class="bg-ink-900 p-5">
+            <dt class="font-mono text-xs uppercase tracking-widest text-spark-500">
+              {f.k}
+            </dt>
+            <dd class="mt-2 text-sm leading-relaxed text-mist-300">{f.v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div
+      class="rounded-xl border-l-2 border-spark-500 bg-ink-900 px-6 py-5 text-base leading-relaxed text-mist-200"
+    >
+      Si buscás a alguien con 5 años de experiencia en código, no soy yo —
+      todavía. Si buscás a alguien que aprende rápido, se hace responsable y ya
+      demostró que puede llevar un sistema de la idea a producción,
+      <a href="#contacto" class="font-semibold text-spark-400 underline decoration-spark-500/40 underline-offset-4 hover:decoration-spark-400"
+        >hablemos</a
+      >.
+    </div>
+  </div>
+</Section>

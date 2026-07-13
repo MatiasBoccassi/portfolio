@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  /* Industrial dark palette: slate base, amber "spark" accent */
+  --color-ink-950: #0a0c10;
+  --color-ink-900: #0f131a;
+  --color-ink-850: #141a23;
+  --color-ink-800: #1a222d;
+  --color-ink-700: #263140;
+  --color-ink-600: #3a4757;
+  --color-line: #26303c;
+
+  --color-mist-100: #eef2f7;
+  --color-mist-300: #c3ccd8;
+  --color-mist-400: #97a3b2;
+  --color-mist-500: #6b7686;
+
+  --color-spark-400: #ffb454;
+  --color-spark-500: #f59e0b;
+  --color-spark-600: #d97b06;
+
+  --color-steel-400: #5eb0e5;
+  --color-steel-500: #3b8fce;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-ink-950);
+  color: var(--color-mist-300);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+::selection {
+  background-color: var(--color-spark-500);
+  color: var(--color-ink-950);
+}
+
+/* Subtle reveal-on-scroll, progressively enhanced.
+   Content is only hidden once JS marks the document ready — without JS
+   (or if the observer never fires) everything stays visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+  .reveal-ready .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,75 @@
+---
+const links = [
+  {
+    label: "Email",
+    value: "mtboccassi@gmail.com",
+    href: "mailto:mtboccassi@gmail.com",
+    icon: "M2.5 5.5h15v11h-15z M2.5 6l7.5 5.5L17.5 6",
+  },
+  {
+    label: "GitHub",
+    value: "MatiasBoccassi",
+    href: "https://github.com/MatiasBoccassi",
+    icon: "",
+  },
+  {
+    label: "LinkedIn",
+    value: "matias-boccassi",
+    href: "https://www.linkedin.com/in/matias-boccassi-793a17211/",
+    icon: "",
+  },
+];
+---
+
+<footer id="contacto" class="relative overflow-hidden">
+  <div
+    class="pointer-events-none absolute inset-x-0 -bottom-24 mx-auto h-72 w-[40rem] rounded-full bg-spark-500/10 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="relative mx-auto max-w-5xl px-6 py-24 text-center">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-spark-500">
+      Contacto
+    </p>
+    <h2
+      class="mt-3 font-display text-3xl font-bold tracking-tight text-mist-100 sm:text-4xl"
+    >
+      ¿Hablamos?
+    </h2>
+    <p class="mx-auto mt-4 max-w-md text-mist-400">
+      Estoy abierto a oportunidades, charlas o preguntas. La forma más rápida
+      de llegar es el mail.
+    </p>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-3">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            target={l.href.startsWith("http") ? "_blank" : undefined}
+            rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            class="group flex items-center gap-3 rounded-xl border border-line bg-ink-900 px-5 py-3 text-left transition-colors hover:border-spark-500/50 hover:bg-ink-850"
+          >
+            <span class="font-mono text-xs uppercase tracking-widest text-mist-500 group-hover:text-spark-500">
+              {l.label}
+            </span>
+            <span class="text-sm font-medium text-mist-200">{l.value}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-8">
+      <a
+        href="/cv-matias-boccassi.pdf"
+        class="text-sm text-mist-400 underline decoration-line underline-offset-4 transition-colors hover:text-mist-100"
+      >
+        Descargar CV en PDF
+      </a>
+    </div>
+
+    <p class="mt-16 font-mono text-xs text-mist-500">
+      © 2026 Matías Boccassi · Hecho con Astro
+    </p>
+  </div>
+</footer>

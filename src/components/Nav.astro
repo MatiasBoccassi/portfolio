@@ -1,0 +1,44 @@
+---
+const links = [
+  { href: "#sobre-mi", label: "Sobre mí" },
+  { href: "#proyectos", label: "Proyectos" },
+  { href: "#stack", label: "Stack" },
+  { href: "#busco", label: "Qué busco" },
+  { href: "#contacto", label: "Contacto" },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-line/60 bg-ink-950/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex max-w-5xl items-center justify-between px-6 py-4"
+  >
+    <a
+      href="#top"
+      class="font-display text-sm font-semibold tracking-tight text-mist-100"
+    >
+      Matías Boccassi
+    </a>
+    <ul class="hidden items-center gap-7 text-sm text-mist-400 md:flex">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="transition-colors hover:text-spark-400"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="#contacto"
+      class="rounded-full border border-spark-500/40 bg-spark-500/10 px-4 py-1.5 text-sm font-medium text-spark-400 transition-colors hover:bg-spark-500/20 md:hidden"
+    >
+      Contacto
+    </a>
+  </nav>
+</header>

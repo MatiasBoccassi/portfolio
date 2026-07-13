@@ -1,0 +1,84 @@
+---
+// Foto pendiente: colocar en public/matias.jpg (la del CV) y poner hasPhoto=true.
+const hasPhoto = true;
+---
+
+<section
+  id="top"
+  class="relative overflow-hidden border-b border-line/50"
+>
+  <!-- textura técnica de fondo -->
+  <div
+    class="pointer-events-none absolute inset-0 opacity-[0.06]"
+    style="background-image: linear-gradient(var(--color-mist-500) 1px, transparent 1px), linear-gradient(90deg, var(--color-mist-500) 1px, transparent 1px); background-size: 44px 44px;"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -top-24 right-0 h-96 w-96 rounded-full bg-spark-500/10 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative mx-auto grid max-w-5xl items-center gap-12 px-6 py-24 md:grid-cols-[1fr_auto] md:py-32"
+  >
+    <div>
+      <p
+        class="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-ink-850 px-3 py-1 font-mono text-xs text-mist-400"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-spark-400"></span>
+        Buenos Aires, Argentina · disponible
+      </p>
+      <h1
+        class="font-display text-4xl font-bold leading-[1.05] tracking-tight text-mist-100 sm:text-5xl md:text-6xl"
+      >
+        De la planta industrial<br />
+        <span class="text-spark-400">al software.</span>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-mist-300">
+        De día planifico la producción de una metalúrgica — máquinas CNC, 6
+        personas a cargo y plazos que no perdonan. El resto del tiempo hago lo
+        que más me gusta: construir software y entender cómo funcionan las
+        cosas por dentro.
+      </p>
+      <p class="mt-4 max-w-xl text-lg text-mist-100">
+        Busco mi primer puesto como <strong class="font-semibold text-mist-100"
+          >desarrollador backend</strong
+        >.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a
+          href="#proyectos"
+          class="rounded-lg bg-spark-500 px-5 py-3 text-sm font-semibold text-ink-950 shadow-lg shadow-spark-500/20 transition-transform hover:-translate-y-0.5"
+        >
+          Ver mis proyectos ↓
+        </a>
+        <a
+          href="#contacto"
+          class="rounded-lg border border-line px-5 py-3 text-sm font-medium text-mist-200 transition-colors hover:border-mist-500 hover:text-mist-100"
+        >
+          Contacto
+        </a>
+      </div>
+    </div>
+
+    <div class="hidden md:block">
+      {
+        hasPhoto ? (
+          <img
+            src="/matias.jpg"
+            alt="Matías Boccassi"
+            class="h-56 w-56 rounded-2xl border border-line object-cover"
+          />
+        ) : (
+          <div
+            class="flex h-56 w-56 items-center justify-center rounded-2xl border border-line bg-ink-850 font-display text-6xl font-bold text-ink-600"
+          >
+            MB
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>
