@@ -60,3 +60,19 @@ body {
     transform: none;
   }
 }
+
+/* Full-page scroll — SOLO en desktop con mouse (min-width 1024 + pointer fine).
+   Cada sección ocupa la pantalla completa y se ve una sola a la vez; el
+   deslizamiento sección-a-sección lo maneja el script de la home. En
+   mobile/touch no aplica nada de esto: scroll normal, layout apilado.
+   `safe center` centra el contenido cuando entra, y cae a flex-start (sin
+   recortar arriba) si una sección fuera más alta que la pantalla. */
+@media (min-width: 1024px) and (pointer: fine) {
+  #fullpage > section,
+  #fullpage > footer {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
+  }
+}
