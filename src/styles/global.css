@@ -28,7 +28,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* El scroll suave lo maneja el JS de la home (rAF), no el CSS, para no
+     depender del navegador ni de "reducir movimiento" y controlar la
+     velocidad del deslizamiento. */
   background-color: var(--color-ink-950);
   color: var(--color-mist-300);
   font-family: var(--font-sans);

@@ -58,16 +58,40 @@ import Contact from "../components/Contact.astro";
     );
   }
 
+  // Duración del deslizamiento entre secciones (ms). Subir = más lento.
+  const SLIDE_MS = 500;
+  let rafId = 0;
+
+  // Anima el scroll cuadro por cuadro (no depende de scroll-behavior del CSS
+  // ni de scrollIntoView, que en algunos equipos/con "reducir movimiento" no
+  // animan). Escribe scrollTop directo, que siempre es instantáneo por frame.
+  function animateScrollTo(targetY: number, duration = SLIDE_MS) {
+    cancelAnimationFrame(rafId);
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    if (Math.abs(dist) < 1) return;
+    const startT = performance.now();
+    // easeInOutQuad
+    const ease = (t: number) =>
+      t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - startT) / duration);
+      window.scrollTo(0, Math.round(startY + dist * ease(t)));
+      if (t < 1) rafId = requestAnimationFrame(step);
+    };
+    rafId = requestAnimationFrame(step);
+  }
+
   function goTo(i: number) {
     const clamped = Math.max(0, Math.min(panels.length - 1, i));
     animating = true;
-    panels[clamped].scrollIntoView({ behavior: "smooth", block: "start" });
+    animateScrollTo(panels[clamped].offsetTop);
     window.clearTimeout(cooldown);
     // Cooldown: bloquea nuevos saltos mientras dura la animación, para que
     // un solo gesto (o el impulso del touchpad) no encadene varios.
     cooldown = window.setTimeout(() => {
       animating = false;
-    }, 800);
+    }, SLIDE_MS + 60);
   }
 
   function onWheel(e: WheelEvent) {
@@ -120,4 +144,26 @@ import Contact from "../components/Contact.astro";
   window.addEventListener("keydown", onKey);
   syncActive();
   mq.addEventListener("change", syncActive);
+
+  // Links internos (menú, CTAs, "hablemos"): mismo deslizamiento animado.
+  // En desktop full-page van al tope exacto de la sección; en mobile se
+  // descuenta el alto del header fijo para no tapar el título.
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href") ?? "";
+      const el = href.length > 1 ? document.getElementById(href.slice(1)) : null;
+      if (!el) return;
+      e.preventDefault();
+      const headerH =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 0;
+      const y = mq.matches ? el.offsetTop : Math.max(0, el.offsetTop - headerH);
+      animating = true;
+      animateScrollTo(y);
+      window.clearTimeout(cooldown);
+      cooldown = window.setTimeout(() => {
+        animating = false;
+      }, SLIDE_MS + 60);
+      history.replaceState(null, "", href);
+    });
+  });
 </script>
