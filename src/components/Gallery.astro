@@ -10,10 +10,7 @@ interface Props {
 const { shots } = Astro.props;
 ---
 
-<div
-  class="gallery grid grid-cols-2 gap-3 sm:grid-cols-4"
-  data-gallery
->
+<div class="gallery grid grid-cols-2 gap-3 sm:grid-cols-4" data-gallery>
   {
     shots.map((s, i) => (
       <button
@@ -21,6 +18,7 @@ const { shots } = Astro.props;
         class="group/thumb block overflow-hidden rounded-lg border border-line bg-ink-850 text-left transition-colors hover:border-spark-500/50"
         data-shot={s.src}
         data-caption={s.caption}
+        data-index={i}
         aria-label={`Ampliar: ${s.caption}`}
       >
         <span
@@ -46,51 +44,144 @@ const { shots } = Astro.props;
 
 <dialog
   data-lightbox
-  class="m-auto w-[min(92vw,1100px)] rounded-xl border border-line bg-ink-900 p-0 backdrop:bg-ink-950/80 backdrop:backdrop-blur-sm"
+  class="m-0 h-[100dvh] max-h-none w-screen max-w-none bg-transparent p-0 backdrop:bg-ink-950/90 backdrop:backdrop-blur-sm sm:m-auto sm:h-[88vh] sm:w-[min(93vw,1150px)]"
 >
-  <div class="flex items-center justify-between border-b border-line px-4 py-2.5">
-    <span data-lightbox-caption class="text-sm text-mist-300"></span>
-    <button
-      type="button"
-      data-lightbox-close
-      class="rounded-md px-2 py-1 text-mist-400 transition-colors hover:bg-ink-800 hover:text-mist-100"
-      aria-label="Cerrar"
-    >
-      ✕
-    </button>
+  <div class="flex h-full flex-col bg-ink-900 sm:rounded-xl sm:border sm:border-line">
+    <!-- Barra superior -->
+    <div class="flex shrink-0 items-center gap-3 border-b border-line px-4 py-3">
+      <span data-lightbox-caption class="min-w-0 flex-1 truncate text-sm text-mist-200"></span>
+      <span
+        data-lightbox-counter
+        class="shrink-0 font-mono text-xs text-mist-500"></span>
+      <button
+        type="button"
+        data-lightbox-close
+        class="shrink-0 rounded-md px-2 py-1 text-lg text-mist-400 transition-colors hover:bg-ink-800 hover:text-mist-100"
+        aria-label="Cerrar"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Imagen + flechas -->
+    <div class="relative flex flex-1 items-center justify-center overflow-hidden bg-ink-950" data-lightbox-stage>
+      <button
+        type="button"
+        data-lightbox-prev
+        class="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-ink-900/80 text-xl text-mist-200 backdrop-blur-sm transition-colors hover:bg-ink-800 hover:text-mist-100"
+        aria-label="Foto anterior"
+      >
+        ‹
+      </button>
+
+      <img
+        data-lightbox-img
+        src=""
+        alt=""
+        class="max-h-full max-w-full object-contain"
+      />
+
+      <button
+        type="button"
+        data-lightbox-next
+        class="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-line bg-ink-900/80 text-xl text-mist-200 backdrop-blur-sm transition-colors hover:bg-ink-800 hover:text-mist-100"
+        aria-label="Foto siguiente"
+      >
+        ›
+      </button>
+    </div>
   </div>
-  <img
-    data-lightbox-img
-    src=""
-    alt=""
-    class="max-h-[80vh] w-full bg-ink-950 object-contain"
-  />
 </dialog>
 
 <script>
   const gallery = document.querySelector<HTMLElement>("[data-gallery]");
   const dialog = document.querySelector<HTMLDialogElement>("[data-lightbox]");
+
   if (gallery && dialog) {
+    // Leo la lista de fotos del DOM (mismo orden que las miniaturas).
+    const shots = Array.from(
+      gallery.querySelectorAll<HTMLElement>("[data-shot]"),
+    ).map((btn) => ({
+      src: btn.dataset.shot ?? "",
+      caption: btn.dataset.caption ?? "",
+    }));
+
     const img = dialog.querySelector<HTMLImageElement>("[data-lightbox-img]");
     const cap = dialog.querySelector<HTMLElement>("[data-lightbox-caption]");
+    const counter = dialog.querySelector<HTMLElement>("[data-lightbox-counter]");
     const closeBtn = dialog.querySelector<HTMLElement>("[data-lightbox-close]");
+    const prevBtn = dialog.querySelector<HTMLElement>("[data-lightbox-prev]");
+    const nextBtn = dialog.querySelector<HTMLElement>("[data-lightbox-next]");
+    const stage = dialog.querySelector<HTMLElement>("[data-lightbox-stage]");
+
+    // Con una sola foto no tiene sentido mostrar las flechas.
+    if (shots.length <= 1) {
+      prevBtn?.classList.add("hidden");
+      nextBtn?.classList.add("hidden");
+    }
+
+    let current = 0;
+
+    const show = (i: number) => {
+      // Envuelve: de la última pasa a la primera y viceversa.
+      current = (i + shots.length) % shots.length;
+      const shot = shots[current];
+      if (img) {
+        img.src = shot.src;
+        img.alt = shot.caption;
+      }
+      if (cap) cap.textContent = shot.caption;
+      if (counter) counter.textContent = `${current + 1} / ${shots.length}`;
+    };
+
+    const open = (i: number) => {
+      show(i);
+      dialog.showModal();
+    };
+    const close = () => dialog.close();
+    const next = () => show(current + 1);
+    const prev = () => show(current - 1);
 
     gallery.querySelectorAll<HTMLElement>("[data-shot]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (img) {
-          img.src = btn.dataset.shot ?? "";
-          img.alt = btn.dataset.caption ?? "";
-        }
-        if (cap) cap.textContent = btn.dataset.caption ?? "";
-        dialog.showModal();
-      });
+      btn.addEventListener("click", () => open(Number(btn.dataset.index ?? 0)));
     });
 
-    const close = () => dialog.close();
     closeBtn?.addEventListener("click", close);
-    // Click on the backdrop (outside the content) closes.
+    nextBtn?.addEventListener("click", next);
+    prevBtn?.addEventListener("click", prev);
+
+    // Clic en el fondo (fuera de la imagen y los controles) cierra.
     dialog.addEventListener("click", (e) => {
       if (e.target === dialog) close();
+    });
+
+    // Teclado: ← → para navegar (Escape ya cierra por defecto en <dialog>).
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") next();
+      else if (e.key === "ArrowLeft") prev();
+    });
+
+    // Swipe en mobile: un solo dedo, gesto horizontal (no interfiere con el
+    // pinch-to-zoom, que usa dos dedos).
+    let startX = 0;
+    let startY = 0;
+    stage?.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      },
+      { passive: true },
+    );
+    stage?.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      // Solo cuenta como swipe si es claramente horizontal.
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) next();
+        else prev();
+      }
     });
   }
 </script>
