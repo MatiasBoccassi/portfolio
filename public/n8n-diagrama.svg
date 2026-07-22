@@ -1,0 +1,61 @@
+<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif" role="img" aria-label="Flujo del workflow: disparador, leer datos, calcular, formatear, enviar a Telegram">
+  <style>
+    .box { fill: #f4f4f5; stroke: #d4d4d8; }
+    .trg { fill: #fef3c7; stroke: #fbbf24; }
+    .title { fill: #18181b; font-weight: 700; }
+    .sub { fill: #52525b; }
+    .conn { stroke: #a1a1aa; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: #27272a; stroke: #3f3f46; }
+      .trg { fill: #3b2f12; stroke: #a16207; }
+      .title { fill: #fafafa; }
+      .sub { fill: #a1a1aa; }
+      .conn { stroke: #52525b; }
+    }
+  </style>
+  <defs>
+    <marker id="arw" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#a1a1aa"/>
+    </marker>
+  </defs>
+
+  <g class="conn" stroke-width="2" fill="none" marker-end="url(#arw)">
+    <line x1="118" y1="95" x2="144" y2="95"/>
+    <line x1="256" y1="95" x2="282" y2="95"/>
+    <line x1="394" y1="95" x2="420" y2="95"/>
+    <line x1="532" y1="95" x2="558" y2="95"/>
+  </g>
+
+  <g>
+    <rect class="trg" x="10" y="60" width="108" height="70" rx="12" stroke-width="1.5"/>
+    <text x="64" y="88" text-anchor="middle" font-size="24">⏰</text>
+    <text x="64" y="110" text-anchor="middle" font-size="12" class="title">Disparador</text>
+    <text x="64" y="124" text-anchor="middle" font-size="10" class="sub">cada día 8:00</text>
+  </g>
+  <g>
+    <rect class="box" x="148" y="60" width="108" height="70" rx="12" stroke-width="1.5"/>
+    <text x="202" y="88" text-anchor="middle" font-size="24">📥</text>
+    <text x="202" y="110" text-anchor="middle" font-size="12" class="title">Leer datos</text>
+    <text x="202" y="124" text-anchor="middle" font-size="10" class="sub">mock / Sheets / API</text>
+  </g>
+  <g>
+    <rect class="box" x="286" y="60" width="108" height="70" rx="12" stroke-width="1.5"/>
+    <text x="340" y="88" text-anchor="middle" font-size="24">🧮</text>
+    <text x="340" y="110" text-anchor="middle" font-size="12" class="title">Calcular</text>
+    <text x="340" y="124" text-anchor="middle" font-size="10" class="sub">indicadores</text>
+  </g>
+  <g>
+    <rect class="box" x="424" y="60" width="108" height="70" rx="12" stroke-width="1.5"/>
+    <text x="478" y="88" text-anchor="middle" font-size="24">📝</text>
+    <text x="478" y="110" text-anchor="middle" font-size="12" class="title">Formatear</text>
+    <text x="478" y="124" text-anchor="middle" font-size="10" class="sub">armar resumen</text>
+  </g>
+  <g>
+    <rect class="box" x="562" y="60" width="108" height="70" rx="12" stroke-width="1.5"/>
+    <text x="616" y="88" text-anchor="middle" font-size="24">📤</text>
+    <text x="616" y="110" text-anchor="middle" font-size="12" class="title">Enviar</text>
+    <text x="616" y="124" text-anchor="middle" font-size="10" class="sub">Telegram</text>
+  </g>
+
+  <text x="340" y="28" text-anchor="middle" font-size="15" class="title">Reporte de negocio automático — flujo n8n</text>
+</svg>

@@ -34,6 +34,7 @@ const vetsaasTech = [
 
 const vetsaasStack = ["Next.js 15", "NestJS 10", "Prisma", "PostgreSQL", "TypeScript", "Railway", "Vercel"];
 const camStack = ["Python", "Shapely", "Geometría computacional", "G-code / CNC"];
+const n8nStack = ["n8n", "JavaScript", "Telegram Bot API", "Automatización"];
 ---
 
 <!-- Proyecto 01 — VetSaaS (layout ancho en 2 columnas para entrar a lo alto) -->
@@ -191,6 +192,90 @@ const camStack = ["Python", "Shapely", "Geometría computacional", "G-code / CNC
             </span>
           ))
         }
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Proyecto 03 — Reporte de negocio automático (n8n) -->
+<section id="proyecto-3" class="border-b border-line/50">
+  <div class="mx-auto w-full max-w-3xl px-6 py-14">
+    <p class="reveal mb-6 font-mono text-xs uppercase tracking-[0.2em] text-spark-500">
+      Proyecto 03
+    </p>
+
+    <article
+      class="reveal relative overflow-hidden rounded-2xl border border-line bg-ink-900 p-6 md:p-8"
+    >
+      <div class="flex flex-wrap items-center gap-2.5">
+        <h3 class="font-display text-xl font-bold text-mist-100">
+          Reporte de negocio automático
+        </h3>
+        <span
+          class="rounded-full border border-line bg-ink-850 px-2.5 py-0.5 font-mono text-xs text-mist-400"
+        >
+          n8n · automatización
+        </span>
+      </div>
+      <p class="mt-1 text-sm text-mist-400">
+        Reporte diario de ventas, calculado y enviado solo por Telegram
+      </p>
+
+      <p class="mt-4 text-sm leading-relaxed text-mist-300">
+        El "reporte del día" que muchos negocios arman a mano (ventas, ticket
+        promedio, producto más vendido, comparación con ayer) automatizado con
+        un workflow de n8n: en horario lee los datos, calcula los indicadores,
+        arma un mensaje prolijo y lo manda al equipo por Telegram.
+      </p>
+
+      <div class="mt-6 overflow-hidden rounded-xl border border-line/70 bg-ink-850 p-4">
+        <img
+          src="/n8n-diagrama.svg"
+          alt="Flujo del workflow: disparador cada día, leer datos, calcular indicadores, formatear y enviar a Telegram"
+          class="mx-auto w-full max-w-xl"
+          loading="lazy"
+        />
+      </div>
+
+      <p class="mt-5 font-mono text-xs uppercase tracking-widest text-mist-500">
+        Cómo funciona
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-mist-300">
+        Cinco nodos encadenados, cada uno con una responsabilidad: un
+        <span class="text-mist-200">Schedule Trigger</span> dispara el flujo, dos
+        nodos de código calculan los indicadores y arman el texto, y el nodo de
+        Telegram lo entrega. Cambiar la fuente de datos —de datos de prueba a una
+        planilla real, una base de datos o una API— es cambiar un solo nodo.
+      </p>
+
+      <div
+        class="mt-5 rounded-xl border border-line/70 bg-ink-850 p-4 text-sm leading-relaxed text-mist-400"
+      >
+        <span class="font-semibold text-mist-200">Por qué lo muestro:</span> es la
+        misma idea que aplico en manufactura (automatizar tareas reales y
+        repetitivas), en la herramienta que muchos equipos usan hoy para bajar
+        costos y tiempos. Workflow, README y diagrama, todo reproducible.
+      </div>
+
+      <div class="mt-5 flex flex-wrap gap-2">
+        {
+          n8nStack.map((s) => (
+            <span class="rounded-md border border-line bg-ink-850 px-2.5 py-1 font-mono text-xs text-mist-400">
+              {s}
+            </span>
+          ))
+        }
+      </div>
+
+      <div class="mt-6">
+        <a
+          href="https://github.com/MatiasBoccassi/n8n-reporte-negocio"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg border border-spark-500/30 bg-spark-500/10 px-4 py-2 font-mono text-xs text-spark-400 transition-colors hover:bg-spark-500/20"
+        >
+          Ver el repo en GitHub →
+        </a>
       </div>
     </article>
   </div>
